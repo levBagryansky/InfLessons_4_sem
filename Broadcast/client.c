@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 #define MAXLINE 1024
 
@@ -22,17 +23,21 @@ int main(){
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(27312);
-    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
 
     int a = 1;
     setsockopt(sock_fd, SOL_SOCKET, SO_BROADCAST, &a, sizeof(a));
-    bind(INADDR_ANY, (struct sockaddr*) &serv_addr, sizeof (serv_addr));
+    //bind(sock_fd, (struct sockaddr*) &serv_addr, sizeof (serv_addr));
 
     sendto(sock_fd, buf, strlen(buf), MSG_CONFIRM, (const struct sockaddr *) &serv_addr, sizeof serv_addr);
 
     // получаем
     socklen_t len = sizeof(serv_addr);
     recvfrom(sock_fd, buf, sizeof(buf), MSG_WAITALL, (struct sockaddr *) &serv_addr, &len);
-    printf("Get answer from server: ip = %d\nMessage : %s", serv_addr.sin_addr.s_addr, buf);
+    printf("Get answer from server: ip = %s\nMessage : %s", inet_ntoa(serv_addr.sin_addr), buf);
 
+    memset(buf, 0, sizeof buf);
+    len = sizeof(serv_addr);
+    recvfrom(sock_fd, buf, sizeof(buf), MSG_WAITALL, (struct sockaddr *) &serv_addr, &len);
+    printf("Get answer from server: ip = %s\nMessage : %s", inet_ntoa(serv_addr.sin_addr), buf);
 }
