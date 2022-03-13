@@ -28,13 +28,11 @@ int main(int argc, char** argv) {
         serv_addr.sin_port = htons(1e4);
 
         bind(sock_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-
+        printf("binded\n");
         listen(sock_fd, 2);
-
-        //struct sockaddr_in sender_info;
+        printf("listened\n");
         int acc_fd = accept(sock_fd, NULL, NULL);
-        // int ip = sender_info.sin_addr.s_addr;
-        // printf("ip = %d\n", ip);
+        printf("accepted\n");
         int n;
         while (1) {
             n = read(acc_fd, buf, MAXLINE);

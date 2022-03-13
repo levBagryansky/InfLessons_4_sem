@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 #define MAXLINE 1024
 #define PORT 1e4
@@ -26,14 +27,15 @@ int main(int argc, char** argv) {
         struct sockaddr_in serv_addr;
         serv_addr.sin_family = AF_INET;
         serv_addr.sin_port = htons(1e4);
-        serv_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        serv_addr.sin_addr.s_addr = inet_addr()
 
         int connect_fd = connect(sock_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-        printf("connect_fd == %d\n", connect_fd);
         if(connect_fd < 0){
-            printf("connect_fd = %d\n", connect_fd);
+            printf("connect_fd == %d\n", connect_fd);
             exit(1);
         }
+
+        printf("connect_fd == %d\n", connect_fd);
 
         int n;
         while (1){
