@@ -34,6 +34,6 @@ int main(){
     // получаем
     socklen_t len = sizeof(serv_addr);
     recvfrom(sock_fd, buf, sizeof(buf), MSG_WAITALL, (struct sockaddr *) &serv_addr, &len);
-    printf("Get answer from server: ip = %s\nMessage : %s", inet_ntoa(serv_addr.sin_addr), buf);
+    printf("Get answer from server: ip = %s\nMessage : %s\n", inet_ntoa(serv_addr.sin_addr), buf);
 
 }
