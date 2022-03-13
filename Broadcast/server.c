@@ -41,8 +41,8 @@ int main(){
         sock_fd_snd = socket(AF_INET, SOCK_DGRAM, 0);
         char buf_answer[1024] = "I am Bagr server";
         sendto(sock_fd_snd, buf_answer, strlen(buf_answer), MSG_CONFIRM, (const struct sockaddr *) &cli_addr, sizeof cli_addr);
-        memset(buf_answer, 0, sizeof buf);
-
+        memset(buf_answer, 0, sizeof buf_answer);
+        memset(buf, 0, sizeof buf);
     }
     close(sock_fd_rcv);
 }
