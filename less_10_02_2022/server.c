@@ -3,6 +3,7 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 #define MAXLINE 1024
 
@@ -25,6 +26,7 @@ int main(int argc, char** argv) {
         }
         serv_addr.sin_family = AF_INET;
         serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+//        serv_addr.sin_addr.s_addr = inet_addr("192.168.1.153");
         serv_addr.sin_port = htons(1e4);
 
         bind(sock_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
